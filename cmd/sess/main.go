@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"runtime/debug"
 	"strings"
 
 	"github.com/datapointchris/sess/internal/config"
@@ -13,11 +14,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Version information (can be set at build time)
-var (
-	Version = "0.1.0"
-	Commit  = "dev"
-)
+func getVersion() string {
+	if info, ok := debug.ReadBuildInfo(); ok {
+		if info.Main.Version != "" && info.Main.Version != "(devel)" {
+			return info.Main.Version
+		}
+	}
+	return "dev"
+}
 
 // Detect the platform (macos or wsl)
 func detectPlatform() string {
@@ -76,7 +80,7 @@ SESSIONS:
 CONFIG:
   Default sessions: ~/.config/sess/sessions-<platform>.yml
   Platform detected automatically (macos, wsl, etc.)`,
-		Version: fmt.Sprintf("%s (%s)", Version, Commit),
+		Version: getVersion(),
 		// Run is called when the user runs "session" with no subcommands
 		Run: func(cmd *cobra.Command, args []string) {
 			// If the user provided a session name as argument, create/switch to it
