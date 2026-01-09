@@ -17,6 +17,7 @@ type MockTmuxClient struct {
 	createErr      error
 	switchErr      error
 	lastSessionErr error
+	deleteErr      error
 }
 
 // Implement all TmuxClient interface methods
@@ -52,6 +53,14 @@ func (m *MockTmuxClient) IsInsideTmux() bool {
 
 func (m *MockTmuxClient) SwitchToLastSession() error {
 	return m.lastSessionErr
+}
+
+func (m *MockTmuxClient) DeleteSession(name string) error {
+	return m.deleteErr
+}
+
+func (m *MockTmuxClient) ReloadConfig() error {
+	return nil
 }
 
 // MockTmuxinatorClient is a fake tmuxinator client for testing
@@ -97,7 +106,7 @@ func (m *MockConfigLoader) LoadDefaultSessions(platform string) ([]SessionConfig
 	return m.sessions, nil
 }
 
-func (m *MockConfigLoader) GetSessionConfig(name string, platform string) (*SessionConfig, error) {
+func (m *MockConfigLoader) GetSessionConfig(name, platform string) (*SessionConfig, error) {
 	// Find the session in our mock list
 	for _, sess := range m.sessions {
 		if sess.Name == name {
@@ -196,7 +205,6 @@ func TestListAll(t *testing.T) {
 
 			// Call the function we're testing
 			sessions, err := manager.ListAll()
-
 			// Check for errors
 			if err != nil {
 				t.Fatalf("ListAll() returned error: %v", err)
@@ -227,13 +235,13 @@ func TestListAll(t *testing.T) {
 // TestCreateOrSwitch tests the CreateOrSwitch function
 func TestCreateOrSwitch(t *testing.T) {
 	tests := []struct {
-		name           string
-		sessionName    string
-		existingSessions []Session
+		name               string
+		sessionName        string
+		existingSessions   []Session
 		tmuxinatorProjects []string
-		defaultSessions []SessionConfig
-		wantSwitchCall bool
-		wantError      bool
+		defaultSessions    []SessionConfig
+		wantSwitchCall     bool
+		wantError          bool
 	}{
 		{
 			name:        "switch to existing tmux session",
@@ -252,8 +260,8 @@ func TestCreateOrSwitch(t *testing.T) {
 			wantError:          false,
 		},
 		{
-			name:            "create default session",
-			sessionName:     "default1",
+			name:             "create default session",
+			sessionName:      "default1",
 			existingSessions: []Session{},
 			defaultSessions: []SessionConfig{
 				{Name: "default1", Directory: "~/dir1"},

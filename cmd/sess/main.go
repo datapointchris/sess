@@ -160,7 +160,7 @@ func showInteractiveList() {
 	cmd.Stderr = os.Stderr
 	output, err := cmd.Output()
 	if err != nil {
-		// User cancelled or error occurred
+		// User canceled or error occurred
 		return
 	}
 
@@ -299,7 +299,7 @@ This command will fall back to the picker instead of creating.
 Examples:
   sess go dotfiles        # Open dotfiles if it exists, otherwise show picker
   sess go                 # Show picker (same as just 'sess')`,
-		Args:  cobra.MaximumNArgs(1),
+		Args: cobra.MaximumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) == 0 {
 				showInteractiveList()
@@ -332,7 +332,7 @@ Cannot delete tmuxinator projects or default sessions.
 Examples:
   sess delete old-project     # Delete the 'old-project' session
   sess delete test            # Delete the 'test' session`,
-		Args:  cobra.ExactArgs(1),
+		Args: cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			sessionName := args[0]
 			manager := createSessionManager()

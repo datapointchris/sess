@@ -88,7 +88,7 @@ func (l *Loader) LoadDefaultSessions(platform string) ([]session.SessionConfig, 
 }
 
 // GetSessionConfig retrieves a specific session configuration by name
-func (l *Loader) GetSessionConfig(name string, platform string) (*session.SessionConfig, error) {
+func (l *Loader) GetSessionConfig(name, platform string) (*session.SessionConfig, error) {
 	// Load all sessions
 	sessions, err := l.LoadDefaultSessions(platform)
 	if err != nil {

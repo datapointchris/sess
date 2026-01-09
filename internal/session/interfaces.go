@@ -62,7 +62,7 @@ type ConfigLoader interface {
 	LoadDefaultSessions(platform string) ([]SessionConfig, error)
 
 	// GetSessionConfig retrieves a specific default session by name
-	GetSessionConfig(name string, platform string) (*SessionConfig, error)
+	GetSessionConfig(name, platform string) (*SessionConfig, error)
 }
 
 // Note on interfaces in Go:

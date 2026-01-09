@@ -113,9 +113,9 @@ func (d sessionItemDelegate) Render(w io.Writer, m list.Model, index int, item l
 // Model holds the state of our UI
 // This is the "M" in the Elm Architecture (Model-Update-View)
 type Model struct {
-	list     list.Model      // The list component from bubbles
+	list     list.Model        // The list component from bubbles
 	sessions []session.Session // All available sessions
-	choice   string          // The selected session name (when user presses Enter)
+	choice   string            // The selected session name (when user presses Enter)
 }
 
 // NewModel creates a new UI model
@@ -133,7 +133,7 @@ func NewModel(sessions []session.Session) Model {
 	listModel.Styles.Title = titleStyle
 
 	// Additional list settings
-	listModel.SetShowStatusBar(false) // We don't need the status bar
+	listModel.SetShowStatusBar(false)   // We don't need the status bar
 	listModel.SetFilteringEnabled(true) // Enable fuzzy search with /
 
 	return Model{
