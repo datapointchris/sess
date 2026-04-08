@@ -14,7 +14,7 @@ builds:
 
 archives:
   - format: tar.gz
-    name_template: "sess_{{ .Os }}_{{ .Arch }}"
+    name_template: "sess_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 changelog:
   sort: asc
